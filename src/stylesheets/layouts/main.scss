@@ -1,0 +1,27 @@
+.main {
+  &__list {
+    &_wrapper {
+      max-width: 50vw;
+      flex-grow: 1;
+    }
+    &_item {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+    }
+    &_img {
+      overflow: hidden;
+      max-width: 10%;
+      height: 200px;
+      //max-height: 10%;
+    }
+  }
+
+  //Selected List
+  &__selected {
+    &_wrapper {
+      max-width: 50vw;
+      flex-grow: 1;
+    }
+  }
+}
