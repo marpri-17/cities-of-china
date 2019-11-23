@@ -2,6 +2,7 @@ import React from 'react';
 import Header from './Header'
 import CitiesList from './CitiesList';
 import SelectedCities from './SelectedCities';
+import FilterByName from './FilterByName';
 import '../stylesheets/layouts/app.scss';
 
 class App extends React.Component {
@@ -34,7 +35,10 @@ class App extends React.Component {
       <div className="App">
         <Header />
         <section className="section__main">
-          <CitiesList cities={allChinaCities} />
+          < div className="section__main_wrapper">
+            <FilterByName />
+            <CitiesList cities={allChinaCities} />
+          </div>
           <SelectedCities selectedCities="citi" />
         </section>
       </div>
