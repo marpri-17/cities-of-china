@@ -18,7 +18,7 @@ const SelectedCities = ({ selectedCities, handleDeleteCity, resetSelectedList })
                             <p lang="zh">{city.chineseName}</p>
                         </div>
                         <FontAwesomeIcon icon="times" />
-                    </li>) : "Aquí la lista de los seleccionados"
+                    </li>) : "Select a city individually or all at once!"
                 }
             </ul>
         </div>)

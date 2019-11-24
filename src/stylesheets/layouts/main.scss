@@ -1,32 +1,57 @@
 .main {
+  max-height: 100%;
+  overflow: scroll;
   &__list {
     &_wrapper {
+      flex-grow: 1;
+      max-height: 100vh;
+      overflow-y: scroll;
     }
     &_item {
       display: flex;
       justify-content: space-around;
       align-items: center;
+      transition: 0.5s ease;
+      &:hover {
+        background: rgba(104, 195, 163, 0.1);
+      }
     }
     &_img {
       overflow: hidden;
-      max-width: 10%;
-      height: 200px;
+      max-width: 25%;
+      height: 150px;
       //max-height: 10%;
     }
   }
 
   //Selected List
   &__selected {
+    &_item {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      transition: 0.5s ease;
+      &:hover {
+        background: rgba(232, 236, 241, 0.5);
+      }
+    }
     &_wrapper {
-      max-width: 50vw;
+      // max-width: 50vw;
       flex-grow: 1;
+      max-height: 100vh;
+      overflow-y: scroll;
     }
     &_header {
       display: flex;
       flex-direction: row;
       justify-content: space-around;
       align-items: center;
+      border-top: 1px solid grey;
+      border-right: 1px solid grey;
+      border-bottom: 1px solid grey;
       &_clear {
+        color: rgba(27, 163, 156, 0.8);
+        cursor: pointer;
         text-transform: uppercase;
       }
     }

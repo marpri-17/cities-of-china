@@ -15,12 +15,14 @@ class App extends React.Component {
     this.state = {
       allChinaCities: [],
       selectedCities: [],
+      nameQuery: "",
     }
     this.getAllCitiesFromServer = this.getAllCitiesFromServer.bind(this);
     this.handleCityCheckbox = this.handleCityCheckbox.bind(this)
     this.handleDeleteCity = this.handleDeleteCity.bind(this);
     this.resetSelectedList = this.resetSelectedList.bind(this);
     this.handleSelectAll = this.handleSelectAll.bind(this);
+    this.handleFilterByName = this.handleFilterByName.bind(this)
 
   }
 
@@ -84,19 +86,36 @@ class App extends React.Component {
   }
 
   handleSelectAll(e) {
-    console.log(e.target.checked)
+    const { allChinaCities, nameQuery } = this.state;
+    if (!nameQuery) {
+      e.target.checked ? this.setState({
+        selectedCities: allChinaCities
+      }) : this.setState({
+        selectedCities: []
+      })
+    } else {
+      let filteredCities = allChinaCities.filter(chineseCity => chineseCity.name.toLowerCase().includes(nameQuery.toLowerCase()));
+      e.target.checked ? this.setState({ selectedCities: filteredCities }) : this.setState({ selectedCities: [] })
+    }
+  }
+
+  handleFilterByName(e) {
+    let userQuerySearch = e.target.value;
+    this.setState({
+      nameQuery: userQuerySearch,
+    })
   }
 
   render() {
-    const { allChinaCities, selectedCities } = this.state
+    const { allChinaCities, selectedCities, nameQuery } = this.state
     return (
       <div className="App">
         <Header />
         {/* <FontAwesomeIcon icon="times" /> */}
         <section className="section__main">
           < div className="section__main_wrapper">
-            <FilterByName />
-            <CitiesList cities={allChinaCities} handleCityCheckbox={this.handleCityCheckbox} handleSelectAll={this.handleSelectAll} />
+            <FilterByName handleFilterByName={this.handleFilterByName} />
+            <CitiesList cities={allChinaCities.filter(chineseCity => chineseCity.name.toLowerCase().includes(nameQuery.toLowerCase()))} handleCityCheckbox={this.handleCityCheckbox} handleSelectAll={this.handleSelectAll} selectedCities={selectedCities} />
           </div>
           <SelectedCities selectedCities={selectedCities} handleDeleteCity={this.handleDeleteCity} resetSelectedList={this.resetSelectedList} />
         </section>
