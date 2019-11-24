@@ -1,11 +1,11 @@
 import React from 'react';
 import '../stylesheets/layouts/main.scss'
 
-const CitiesList = ({ cities, handleCityCheckbox }) => {
+const CitiesList = ({ cities, handleCityCheckbox, handleSelectAll }) => {
     return (
         <div className="main__list_wrapper">
             <label className="main__list_selectAll-label">
-                <input type="checkbox" /> {cities.length} items
+                <input type="checkbox" onClick={handleSelectAll} /> {cities.length} items
             </label>
             <ul className="main__list">
                 {cities.map(city => {

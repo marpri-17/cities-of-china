@@ -20,6 +20,8 @@ class App extends React.Component {
     this.handleCityCheckbox = this.handleCityCheckbox.bind(this)
     this.handleDeleteCity = this.handleDeleteCity.bind(this);
     this.resetSelectedList = this.resetSelectedList.bind(this);
+    this.handleSelectAll = this.handleSelectAll.bind(this);
+
   }
 
   componentDidMount() {
@@ -38,15 +40,24 @@ class App extends React.Component {
 
   handleCityCheckbox(e) {
     const { allChinaCities, selectedCities } = this.state
-    let newSelectedCities = [];
     let selectedCityID = e.target.parentNode.dataset.id;
-    if (selectedCities.length && selectedCities.map(city => city.id).includes(selectedCityID)) return;
-    for (let city of allChinaCities) {
-      if (selectedCityID === city.id) {
-        newSelectedCities.push(city)
-        this.setState({
-          selectedCities: selectedCities.concat(newSelectedCities)
-        })
+    if (e.target.checked) {
+      for (let city of allChinaCities) {
+        if (selectedCityID === city.id) {
+          this.setState({
+            selectedCities: selectedCities.concat(city)
+          })
+        }
+      }
+    } else {
+      for (let removeCity of selectedCities) {
+        if (removeCity.id === selectedCityID) {
+          let elementIndex = selectedCities.indexOf(removeCity);
+          let newSelectedCities = [...selectedCities.splice(0, elementIndex), ...selectedCities.splice(elementIndex + 1)]
+          this.setState({
+            selectedCities: newSelectedCities,
+          })
+        }
       }
     }
   }
@@ -72,6 +83,10 @@ class App extends React.Component {
     })
   }
 
+  handleSelectAll(e) {
+    console.log(e.target.checked)
+  }
+
   render() {
     const { allChinaCities, selectedCities } = this.state
     return (
@@ -81,7 +96,7 @@ class App extends React.Component {
         <section className="section__main">
           < div className="section__main_wrapper">
             <FilterByName />
-            <CitiesList cities={allChinaCities} handleCityCheckbox={this.handleCityCheckbox} />
+            <CitiesList cities={allChinaCities} handleCityCheckbox={this.handleCityCheckbox} handleSelectAll={this.handleSelectAll} />
           </div>
           <SelectedCities selectedCities={selectedCities} handleDeleteCity={this.handleDeleteCity} resetSelectedList={this.resetSelectedList} />
         </section>
