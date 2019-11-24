@@ -18,7 +18,8 @@ class App extends React.Component {
     }
     this.getAllCitiesFromServer = this.getAllCitiesFromServer.bind(this);
     this.handleCityCheckbox = this.handleCityCheckbox.bind(this)
-    this.handleDeleteCity = this.handleDeleteCity.bind(this)
+    this.handleDeleteCity = this.handleDeleteCity.bind(this);
+    this.resetSelectedList = this.resetSelectedList.bind(this);
   }
 
   componentDidMount() {
@@ -56,13 +57,19 @@ class App extends React.Component {
     for (let city of selectedCities) {
       if (city.id === elementId) {
         let elementIndex = selectedCities.indexOf(city);
-        console.log(elementIndex)
         let newSelectedCities = [...selectedCities.slice(0, elementIndex), ...selectedCities.slice(elementIndex + 1)]
         this.setState({
           selectedCities: newSelectedCities
         })
       }
     }
+  }
+
+  resetSelectedList() {
+    let newSelectedCities = [];
+    this.setState({
+      selectedCities: newSelectedCities
+    })
   }
 
   render() {
@@ -76,7 +83,7 @@ class App extends React.Component {
             <FilterByName />
             <CitiesList cities={allChinaCities} handleCityCheckbox={this.handleCityCheckbox} />
           </div>
-          <SelectedCities selectedCities={selectedCities} handleDeleteCity={this.handleDeleteCity} />
+          <SelectedCities selectedCities={selectedCities} handleDeleteCity={this.handleDeleteCity} resetSelectedList={this.resetSelectedList} />
         </section>
       </div>
     );

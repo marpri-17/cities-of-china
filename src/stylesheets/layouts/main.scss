@@ -21,5 +21,14 @@
       max-width: 50vw;
       flex-grow: 1;
     }
+    &_header {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+      align-items: center;
+      &_clear {
+        text-transform: uppercase;
+      }
+    }
   }
 }
