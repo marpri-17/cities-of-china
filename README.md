@@ -1,7 +1,7 @@
 # Cities of China
 **Front-end Technical test - Orbital Ads**
 Download repository from this [SVN GitHub Link](https://github.com/marpri-17/cities-of-china.git) (you also could use SSH) and execute the command `npm start` for a local deployed version. 
-Also, there's one demo online available at [GitHub Pages]()
+Also, there's one demo online available at [GitHub Pages](https://marpri-17.github.io/cities-of-china/)
 
 This project was bootstrapped with [Create React App.](https://github.com/facebook/create-react-app)
 
