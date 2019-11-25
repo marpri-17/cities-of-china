@@ -35,7 +35,6 @@ class App extends React.Component {
     const citiesJSONurl = "./cities-of-china.json"
     fetch(citiesJSONurl)
       .then(resp => resp.json())
-      //.then(cities => console.log(cities))
       .then(cities => this.setState({
         allChinaCities: cities.cities
       }))
