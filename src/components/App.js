@@ -1,10 +1,11 @@
 import React from 'react';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faTimes, faSearch } from '@fortawesome/free-solid-svg-icons';
 import Header from './Header'
 import CitiesList from './CitiesList';
 import SelectedCities from './SelectedCities';
 import FilterByName from './FilterByName';
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { faTimes, faSearch } from '@fortawesome/free-solid-svg-icons';
+import Loader from './Loader';
 import '../stylesheets/layouts/app.scss';
 
 library.add(faTimes, faSearch);
@@ -111,14 +112,14 @@ class App extends React.Component {
     return (
       <div className="App">
         <Header />
-        {/* <FontAwesomeIcon icon="times" /> */}
-        <section className="section__main">
+        {(allChinaCities == "") ? <Loader /> : <section className="section__main">
           < div className="section__main_wrapper">
             <FilterByName handleFilterByName={this.handleFilterByName} />
             <CitiesList cities={allChinaCities.filter(chineseCity => chineseCity.name.toLowerCase().includes(nameQuery.toLowerCase()))} handleCityCheckbox={this.handleCityCheckbox} handleSelectAll={this.handleSelectAll} selectedCities={selectedCities} />
           </div>
           <SelectedCities selectedCities={selectedCities} handleDeleteCity={this.handleDeleteCity} resetSelectedList={this.resetSelectedList} />
         </section>
+        }
       </div>
     );
   }
