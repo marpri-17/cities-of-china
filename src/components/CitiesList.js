@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import CityItem from './CityItem';
 import '../stylesheets/layouts/main.scss'
 
 const CitiesList = ({ cities, handleCityCheckbox, handleSelectAll, selectedCities }) => {
@@ -12,10 +13,18 @@ const CitiesList = ({ cities, handleCityCheckbox, handleSelectAll, selectedCitie
             <div className="main__list_wrapper">
                 <ul className="main__list">
                     {cities.map(city => {
-                        let isSelected = false;
-                        (selectedCities.includes(city)) ? isSelected = true : isSelected = false;
-                        return (
-                            <li key={city.id} className="main__list_item" data-id={city.id}>
+                        return <CityItem city={city} handleCityCheckbox={handleCityCheckbox} />
+                    })}
+                </ul>
+            </div>
+        </div>
+    )
+}
+
+
+export default CitiesList;
+
+{/* <li key={city.id} className="main__list_item" data-id={city.id}>
                                 {isSelected ? <>
                                     <input type="checkbox" onClick={handleCityCheckbox} name="listinput" checked />
                                     <label className="main__list_item_label" htmlFor="listinput"><span></span></label>
@@ -29,14 +38,4 @@ const CitiesList = ({ cities, handleCityCheckbox, handleSelectAll, selectedCitie
                                     <p lang="zh">{city.chineseName}</p>
                                 </div>
 
-                            </li>
-                        )
-                    })}
-                </ul>
-            </div>
-        </div>
-    )
-}
-
-
-export default CitiesList;
+                            </li> */}
