@@ -35,48 +35,55 @@ class App extends React.Component {
     const citiesJSONurl = "./cities-of-china.json"
     fetch(citiesJSONurl)
       .then(resp => resp.json())
+      .then(allCities => allCities.cities.map(city => {
+        let formatCity = { ...city, isSelected: false }
+        return formatCity;
+      }))
       .then(cities => this.setState({
-        allChinaCities: cities.cities
+        allChinaCities: cities
       }))
   }
+
+  // getSelectedCities() {
+  //   return this.state.allChinaCities.filter(city => city.isSelected = true)
+  // }
 
   handleCityCheckbox(e) {
     const { allChinaCities, selectedCities } = this.state
     let selectedCityID = e.target.parentNode.dataset.id;
-    if (e.target.checked) {
-      for (let city of allChinaCities) {
-        if (selectedCityID === city.id) {
-          this.setState({
-            selectedCities: selectedCities.concat(city)
-          })
-        }
-      }
-    } else {
-      for (let removeCity of selectedCities) {
-        if (removeCity.id === selectedCityID) {
-          let elementIndex = selectedCities.indexOf(removeCity);
-          let newSelectedCities = [...selectedCities.splice(0, elementIndex), ...selectedCities.splice(elementIndex + 1)]
-          this.setState({
-            selectedCities: newSelectedCities,
-          })
-        }
+    debugger
+    let newAllcities = []
+    for (let city of allChinaCities) {
+      if (selectedCityID === city.id) {
+        city.isSelected = true;
+        newAllcities.push(city)
+      } else {
+        newAllcities.push(city)
       }
     }
+    this.setState({
+      allChinaCities: newAllcities
+    })
   }
 
   handleDeleteCity(e) {
-    const { selectedCities } = this.state
+    debugger
+    const { allChinaCities } = this.state
     let elementId = e.currentTarget.dataset.id;
-    for (let city of selectedCities) {
+    let newAllcities = []
+    for (let city of allChinaCities) {
       if (city.id === elementId) {
-        let elementIndex = selectedCities.indexOf(city);
-        let newSelectedCities = [...selectedCities.slice(0, elementIndex), ...selectedCities.slice(elementIndex + 1)]
-        this.setState({
-          selectedCities: newSelectedCities
-        })
+        city.isSelected = false;
+        newAllcities.push(city)
+      } else {
+        newAllcities.push(city)
       }
     }
+    this.setState({
+      allChinaCities: newAllcities
+    })
   }
+  // Falta vincular checkboxes, filterbyname y  botones clear y select all
 
   resetSelectedList() {
     let newSelectedCities = [];
@@ -107,17 +114,19 @@ class App extends React.Component {
   }
 
   render() {
+    console.log(this.state.allChinaCities)
     const { allChinaCities, selectedCities, nameQuery } = this.state
     return (
       <div className="App">
         <Header />
-        {(allChinaCities == "") ? <Loader /> : <section className="section__main">
-          < div className="section__main_wrapper">
-            <FilterByName handleFilterByName={this.handleFilterByName} />
-            <CitiesList cities={allChinaCities.filter(chineseCity => chineseCity.name.toLowerCase().includes(nameQuery.toLowerCase()))} handleCityCheckbox={this.handleCityCheckbox} handleSelectAll={this.handleSelectAll} selectedCities={selectedCities} />
-          </div>
-          <SelectedCities selectedCities={selectedCities} handleDeleteCity={this.handleDeleteCity} resetSelectedList={this.resetSelectedList} />
-        </section>
+        {(allChinaCities == "") ? <Loader /> :
+          <section className="section__main">
+            < div className="section__main_wrapper">
+              <FilterByName handleFilterByName={this.handleFilterByName} />
+              <CitiesList cities={allChinaCities.filter(chineseCity => chineseCity.name.toLowerCase().includes(nameQuery.toLowerCase()))} handleCityCheckbox={this.handleCityCheckbox} handleSelectAll={this.handleSelectAll} selectedCities={selectedCities} />
+            </div>
+            <SelectedCities selectedCities={allChinaCities.filter(city => city.isSelected)} handleDeleteCity={this.handleDeleteCity} resetSelectedList={this.resetSelectedList} />
+          </section>
         }
       </div>
     );

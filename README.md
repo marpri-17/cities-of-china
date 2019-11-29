@@ -9,6 +9,7 @@ This project was bootstrapped with [Create React App.](https://github.com/facebo
 First time you run this project in your local enviroment you would need to install: 
 - [FontAwesome for React](https://fontawesome.com/how-to-use/on-the-web/using-with/react)
 - [Sass for React](https://create-react-app.dev/docs/adding-a-sass-stylesheet/)
+- NPM packages ( in case you already have it installed localy run `npm install` or `npm -g install`)
 - React and React DOM v16.12
 
 ### Available scripts
