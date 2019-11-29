@@ -49,9 +49,8 @@ class App extends React.Component {
   // }
 
   handleCityCheckbox(e) {
-    const { allChinaCities, selectedCities } = this.state
+    const { allChinaCities } = this.state
     let selectedCityID = e.target.parentNode.dataset.id;
-    debugger
     let newAllcities = []
     for (let city of allChinaCities) {
       if (selectedCityID === city.id) {
@@ -67,7 +66,6 @@ class App extends React.Component {
   }
 
   handleDeleteCity(e) {
-    debugger
     const { allChinaCities } = this.state
     let elementId = e.currentTarget.dataset.id;
     let newAllcities = []
@@ -95,15 +93,37 @@ class App extends React.Component {
   handleSelectAll(e) {
     const { allChinaCities, nameQuery } = this.state;
     if (!nameQuery) {
-      e.target.checked ? this.setState({
-        selectedCities: allChinaCities
-      }) : this.setState({
-        selectedCities: []
-      })
+      let allCitiesSelected = allChinaCities.map(city => { city.isSelected = true; return city })
+      this.setState({ allChinaCities: allCitiesSelected })
     } else {
-      let filteredCities = allChinaCities.filter(chineseCity => chineseCity.name.toLowerCase().includes(nameQuery.toLowerCase()));
-      e.target.checked ? this.setState({ selectedCities: filteredCities }) : this.setState({ selectedCities: [] })
+      let filteredCities = allChinaCities.filter(chineseCity => chineseCity.name.toLowerCase().includes(nameQuery.toLowerCase()))
+      let selectedCitiesFromFilter = [];
+      debugger;
+      for (let cityMainList of allChinaCities) {
+        for (let city of filteredCities) {
+          if (cityMainList.id === city.id) {
+            cityMainList.isSelected = true;
+            selectedCitiesFromFilter.push(cityMainList)
+          }
+        }
+      }
+      console.log(selectedCitiesFromFilter)
+      this.setState({
+        allChinaCities: selectedCitiesFromFilter
+      })
     }
+
+
+    // if (!nameQuery) {
+    //   e.target.checked ? this.setState({
+    //     selectedCities: allChinaCities
+    //   }) : this.setState({
+    //     selectedCities: []
+    //   })
+    // } else {
+    //   let filteredCities = allChinaCities.filter(chineseCity => chineseCity.name.toLowerCase().includes(nameQuery.toLowerCase()));
+    //   e.target.checked ? this.setState({ selectedCities: filteredCities }) : this.setState({ selectedCities: [] })
+    // }
   }
 
   handleFilterByName(e) {
