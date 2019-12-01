@@ -8,7 +8,7 @@ const FilterByName = ({ handleFilterByName }) => {
         <>
             <div className="filter__wrapper">
                 <FontAwesomeIcon icon="search" />
-                <input type="text" className="filter__inputname" placeholder="Search city by Name" onKeyUp={handleFilterByName} />
+                <input type="text" className="filter__inputname" placeholder="Search city by Name" onChange={handleFilterByName} />
             </div>
             <hr />
         </>

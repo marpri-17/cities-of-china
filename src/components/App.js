@@ -15,7 +15,6 @@ class App extends React.Component {
     super(props);
     this.state = {
       allChinaCities: [],
-      selectedCities: [],
       nameQuery: "",
     }
     this.getAllCitiesFromServer = this.getAllCitiesFromServer.bind(this);
@@ -23,7 +22,8 @@ class App extends React.Component {
     this.handleDeleteCity = this.handleDeleteCity.bind(this);
     this.resetSelectedList = this.resetSelectedList.bind(this);
     this.handleSelectAll = this.handleSelectAll.bind(this);
-    this.handleFilterByName = this.handleFilterByName.bind(this)
+    this.handleFilterByName = this.handleFilterByName.bind(this);
+    this.handleCheck = this.handleCheck.bind(this);
 
   }
 
@@ -44,17 +44,13 @@ class App extends React.Component {
       }))
   }
 
-  // getSelectedCities() {
-  //   return this.state.allChinaCities.filter(city => city.isSelected = true)
-  // }
-
   handleCityCheckbox(e) {
     const { allChinaCities } = this.state
     let selectedCityID = e.target.parentNode.dataset.id;
     let newAllcities = []
     for (let city of allChinaCities) {
       if (selectedCityID === city.id) {
-        city.isSelected = true;
+        city.isSelected = !city.isSelected;
         newAllcities.push(city)
       } else {
         newAllcities.push(city)
@@ -81,49 +77,29 @@ class App extends React.Component {
       allChinaCities: newAllcities
     })
   }
-  // Falta vincular checkboxes, filterbyname y  botones clear y select all
 
   resetSelectedList() {
-    let newSelectedCities = [];
+    const { allChinaCities } = this.state
+    let newSelectedCities = allChinaCities.map(city => { city.isSelected = false; return city });
     this.setState({
-      selectedCities: newSelectedCities
+      allChinaCities: newSelectedCities,
     })
   }
 
-  handleSelectAll(e) {
+  handleSelectAll() {
     const { allChinaCities, nameQuery } = this.state;
-    if (!nameQuery) {
-      let allCitiesSelected = allChinaCities.map(city => { city.isSelected = true; return city })
-      this.setState({ allChinaCities: allCitiesSelected })
-    } else {
-      let filteredCities = allChinaCities.filter(chineseCity => chineseCity.name.toLowerCase().includes(nameQuery.toLowerCase()))
-      let selectedCitiesFromFilter = [];
-      debugger;
-      for (let cityMainList of allChinaCities) {
-        for (let city of filteredCities) {
-          if (cityMainList.id === city.id) {
-            cityMainList.isSelected = true;
-            selectedCitiesFromFilter.push(cityMainList)
-          }
-        }
+    let filteredCities = allChinaCities.filter(chineseCity => chineseCity.name.toLowerCase().includes(nameQuery.toLowerCase()))
+    let selectedCitiesFromFilter = [];
+    for (let city of allChinaCities) {
+      if (filteredCities.includes(city)) {
+        city.isSelected = true
       }
-      console.log(selectedCitiesFromFilter)
-      this.setState({
-        allChinaCities: selectedCitiesFromFilter
-      })
+      selectedCitiesFromFilter.push(city)
     }
+    this.setState({
+      allChinaCities: selectedCitiesFromFilter
+    })
 
-
-    // if (!nameQuery) {
-    //   e.target.checked ? this.setState({
-    //     selectedCities: allChinaCities
-    //   }) : this.setState({
-    //     selectedCities: []
-    //   })
-    // } else {
-    //   let filteredCities = allChinaCities.filter(chineseCity => chineseCity.name.toLowerCase().includes(nameQuery.toLowerCase()));
-    //   e.target.checked ? this.setState({ selectedCities: filteredCities }) : this.setState({ selectedCities: [] })
-    // }
   }
 
   handleFilterByName(e) {
@@ -133,17 +109,29 @@ class App extends React.Component {
     })
   }
 
+  handleCheck() {
+    const { allChinaCities, nameQuery } = this.state;
+    let citiesSelected = allChinaCities.filter(chineseCity => chineseCity.name.toLowerCase().includes(nameQuery.toLowerCase()));
+    return citiesSelected.reduce((acc, city) => {
+      if (city.isSelected === false) {
+        return false;
+      } else {
+        return acc;
+      }
+    }, true);
+
+  }
+
   render() {
-    console.log(this.state.allChinaCities)
-    const { allChinaCities, selectedCities, nameQuery } = this.state
+    const { allChinaCities, nameQuery } = this.state
     return (
       <div className="App">
         <Header />
         {(allChinaCities == "") ? <Loader /> :
           <section className="section__main">
             < div className="section__main_wrapper">
-              <FilterByName handleFilterByName={this.handleFilterByName} />
-              <CitiesList cities={allChinaCities.filter(chineseCity => chineseCity.name.toLowerCase().includes(nameQuery.toLowerCase()))} handleCityCheckbox={this.handleCityCheckbox} handleSelectAll={this.handleSelectAll} selectedCities={selectedCities} />
+              <FilterByName handleFilterByName={this.handleFilterByName} nameQuery={nameQuery} />
+              <CitiesList cities={allChinaCities.filter(chineseCity => chineseCity.name.toLowerCase().includes(nameQuery.toLowerCase()))} handleCityCheckbox={this.handleCityCheckbox} handleSelectAll={this.handleSelectAll} handleCheck={this.handleCheck} />
             </div>
             <SelectedCities selectedCities={allChinaCities.filter(city => city.isSelected)} handleDeleteCity={this.handleDeleteCity} resetSelectedList={this.resetSelectedList} />
           </section>

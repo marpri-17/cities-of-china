@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
+import React from 'react';
 import CityItem from './CityItem';
 import '../stylesheets/layouts/main.scss'
 
-const CitiesList = ({ cities, handleCityCheckbox, handleSelectAll, selectedCities }) => {
+const CitiesList = ({ cities, handleCityCheckbox, handleSelectAll, handleCheck }) => {
     return (
         <div>
-            <input type="checkbox" onClick={handleSelectAll} />
+            <input type="checkbox" onChange={handleSelectAll} checked={handleCheck()} />
             <label className="main__list_selectAll-label">
-                <span onClick={handleSelectAll}></span> {cities.length} items
+                <span onChange={handleSelectAll}></span> {cities.length} items
             </label>
             <hr />
             <div className="main__list_wrapper">

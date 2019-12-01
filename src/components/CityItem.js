@@ -3,7 +3,7 @@ import React from 'react';
 const CityItem = ({ city, handleCityCheckbox }) => {
     return (
         <li key={city.id} className="main__list_item" data-id={city.id}>
-            {city.isSelected ? <input type="checkbox" onClick={handleCityCheckbox} name="listinput" checked /> : <input type="checkbox" onClick={handleCityCheckbox} name="listinput" />}
+            <input type="checkbox" onChange={handleCityCheckbox} name="listinput" checked={city.isSelected} />
             <label className="main__list_item_label" htmlFor="listinput"><span></span></label>
             <img src="./images/landscape.svg" alt="" className="main__list_img" />
             <div className="main__list_infowrapper">
